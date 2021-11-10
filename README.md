@@ -23,3 +23,8 @@ bin/kafka-topics.sh --create --topic EMAIL --bootstrap-server localhost:9092 --r
 bin/kafka-topics.sh --create --topic NOTIFICATION --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
 
 ```
+
+## install kafka python
+```
+pip install kafka-python flask flask_cors
+```
