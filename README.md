@@ -28,3 +28,10 @@ bin/kafka-topics.sh --create --topic NOTIFICATION --bootstrap-server localhost:9
 ```
 pip install kafka-python flask flask_cors
 ```
+
+## spark-kafka
+```
+https://medium.com/data-arena/enabling-streaming-data-with-spark-structured-streaming-and-kafka-93ce91e5b435
+
+https://github.com/cordon-thiago/spark-kafka-consumer
+```
