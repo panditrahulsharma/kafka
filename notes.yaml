@@ -7,3 +7,14 @@ links:
 
     imp:
         https://www.cloudiqtech.com/how-to-build-real-time-streaming-data-pipelines-and-applications-using-apache-kafka/
+
+docker-image:
+
+
+
+project-idea:
+    send airflow logs to elastic search and kibana using kafka
+
+    flask apps
+
+    big data pipelines
