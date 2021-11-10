@@ -1,0 +1,36 @@
+{
+    "$schema": "/mediawiki/recentchange/1.0.0",
+    "meta": {
+        "uri": "https://sv.wikipedia.org/wiki/Milj%C3%B6partiet",
+        "request_id": "408ebc51-f072-4fb7-bb59-de1fbd10c2cf",
+        "id": "451f9dc1-79c4-4b9a-b399-f11fb43b592f",
+        "dt": "2021-11-10T11:38:22Z",
+        "domain": "sv.wikipedia.org",
+        "stream": "mediawiki.recentchange",
+        "topic": "eqiad.mediawiki.recentchange",
+        "partition": 0,
+        "offset": 3424640314
+    },
+    "id": 325819278,
+    "type": "edit",
+    "namespace": 0,
+    "title": "Miljöpartiet",
+    "comment": "Oklart varför det här togs bort, fortfarande stöd för det i den tillagda källan?",
+    "timestamp": 1636544302,
+    "user": "Julle",
+    "bot": false,
+    "minor": false,
+    "length": {
+        "old": 49900,
+        "new": 49930
+    },
+    "revision": {
+        "old": 49824040,
+        "new": 49836595
+    },
+    "server_url": "https://sv.wikipedia.org",
+    "server_name": "sv.wikipedia.org",
+    "server_script_path": "/w",
+    "wiki": "svwiki",
+    "parsedcomment": "Oklart varför det här togs bort, fortfarande stöd för det i den tillagda källan?"
+}

@@ -4,7 +4,7 @@ from kafka import KafkaConsumer
 from json import loads
 
 
-TOPIC_NAME = "wiki_changes"
+TOPIC_NAME = "wikichange"
 consumer = KafkaConsumer(bootstrap_servers=['localhost:9092'], auto_offset_reset='earliest')
 # consumer.subscribe(['test','EMAIL'])
 consumer.subscribe([TOPIC_NAME])

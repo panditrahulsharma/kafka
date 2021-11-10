@@ -8,9 +8,9 @@ https://towardsdatascience.com/connecting-the-dots-python-spark-and-kafka-19e6be
 
 ## run kafka and zookeeper server
 ```
-zookeeper-server-start.sh config/zookeeper.properties
+./bin/zookeeper-server-start.sh config/zookeeper.properties
 
-kafka-server-start.sh config/server.properties
+./bin/kafka-server-start.sh config/server.properties
 ```
 
 
@@ -32,6 +32,8 @@ pip install kafka-python flask flask_cors
 ## spark-kafka
 ```
 https://medium.com/data-arena/enabling-streaming-data-with-spark-structured-streaming-and-kafka-93ce91e5b435
+
+https://wikitech.wikimedia.org/wiki/Event_Platform/EventStreams#Stream_selection
 
 https://github.com/cordon-thiago/spark-kafka-consumer
 ```
