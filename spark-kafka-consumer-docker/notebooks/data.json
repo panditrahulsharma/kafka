@@ -1,0 +1,35 @@
+{
+    "$schema": "/mediawiki/recentchange/1.0.0",
+    "meta": {
+        "uri": "https://it.wikipedia.org/wiki/Discussioni_utente:LeifRichtofen",
+        "request_id": "63e8ba6c-ad27-43c2-bd58-bf425906ce8d",
+        "id": "756dc627-9f95-4294-971f-817f9d3b02d2",
+        "dt": "2021-11-11T04:00:51Z",
+        "domain": "it.wikipedia.org",
+        "stream": "mediawiki.recentchange",
+        "topic": "eqiad.mediawiki.recentchange",
+        "partition": 0,
+        "offset": 3425918886
+    },
+    "id": 296480961,
+    "type": "new",
+    "namespace": 3,
+    "title": "Discussioni utente:LeifRichtofen",
+    "comment": "Benvenuto/a!",
+    "timestamp": 1636603251,
+    "user": "Omega Bot",
+    "bot": true,
+    "minor": false,
+    "patrolled": true,
+    "length": {
+        "new": 5897
+    },
+    "revision": {
+        "new": 123972248
+    },
+    "server_url": "https://it.wikipedia.org",
+    "server_name": "it.wikipedia.org",
+    "server_script_path": "/w",
+    "wiki": "itwiki",
+    "parsedcomment": "Benvenuto/a!"
+}
