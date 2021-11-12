@@ -1,6 +1,34 @@
-## docks
+## docs
 ```
 https://www.confluent.io/product/confluent-connectors/
+```
+## add security group on ec2 instance
+
+<table>
+<td style="width: 50%">
+<img src="screenshot/inboundrole.png" alt="">
+</td>
+
+</table>
+
+
+
+## recommended install via tar file (ec2 server)
+
+```
+$ sudo apt install default-jdk
+
+$ sudo wget https://packages.confluent.io/archive/7.0/confluent-7.0.0.tar.gz
+
+$ tar -xvf confluent-7.0.0.tar.gz
+
+# export in nano /etc/profile
+$ export PATH=/root/confluent-7.0.0/bin:$PATH
+
+$ /root/confluent-7.0.0/bin/confluent-hub install \
+   --no-prompt confluentinc/kafka-connect-datagen:latest
+
+$ confluent local services start
 ```
 
 ## install confluent kafka docker-compose
