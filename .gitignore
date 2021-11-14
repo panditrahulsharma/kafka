@@ -1,3 +1,2 @@
-kafka_venv
-kafka_confluent/cred
-kafka_confluent/kafka_venv
+cred/aws_creds_calsey.yaml
+cred/confluent_kafka.pem

@@ -1,0 +1,21 @@
+AWSAccessKeyId=AKIAVVX6IYFAYYAYGU2W
+AWSSecretKey=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
+
+aws_ec2:
+ssh -i "kelsey_databricks.pem" ubuntu@ec2-3-236-64-137.compute-1.amazonaws.com
+
+Username : team@languagers.com
+Password: Rtkyvshr7@
+
+community eddition:
+    databricks_email:
+        rahuldatabricks@gmail.com
+        pass=Panndit....
+
+for entriprise eddition:
+    databricks_email:
+        rahuldataenterprise@gmail.com
+
+    links:
+    https://accounts.cloud.databricks.com/workspaces
+    
