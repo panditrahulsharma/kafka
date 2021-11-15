@@ -23,9 +23,14 @@ docker run -d --net=host -p 2181:2181 -p 3030:3030 -p 8081-8083:8081-8083 -p 958
 
 ## list all topic
 ```
-docker run --rm -it --net=host landoop/fast-data-dev:1.0.1 kafka-topics --zookeeper 2.3.144.163.22:2181 --list
+docker run --rm -it --net=host landoop/fast-data-dev:1.0.1 kafka-topics --zookeeper 0.0.0.0:2181 --list
 ```
 ## create topic
 ```
 docker run --rm -it --net=host landoop/fast-data-dev:1.0.1 kafka-topics --zookeeper 0.0.0.0:2181 --topic sinkaws --create --partitions 3 --replication-factor 1
+```
+
+## install spark-jupyter notebook
+```
+docker run -d -p 8888:8888 -p 4040:4040 noleto/pyspark-jupyter
 ```
