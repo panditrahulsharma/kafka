@@ -34,3 +34,8 @@ docker run --rm -it --net=host landoop/fast-data-dev:1.0.1 kafka-topics --zookee
 ```
 docker run -d -p 8888:8888 -p 4040:4040 noleto/pyspark-jupyter
 ```
+
+## install elk
+```
+https://github.com/panditrahulsharma/docker-elk
+```
