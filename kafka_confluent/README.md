@@ -22,11 +22,17 @@ $ sudo wget https://packages.confluent.io/archive/7.0/confluent-7.0.0.tar.gz
 
 $ tar -xvf confluent-7.0.0.tar.gz
 
-# export in nano /etc/profile
-$ export PATH=/root/confluent-7.0.0/bin:$PATH
+# export in nano .profile
 
-$ /root/confluent-7.0.0/bin/confluent-hub install \
+$ export CONFLUENT_HOME=/home/rahul/confluent_kafka_installation/confluent-7.0.0
+$ export PATH=$PATH:$CONFLUENT_HOME/bin
+
+$ source .profile
+
+$ /home/rahul/confluent_kafka_installation/confluent-7.0.0/bin/confluent-hub install \
    --no-prompt confluentinc/kafka-connect-datagen:latest
+
+$ edit -->> sudo gedit confluent-7.0.0/etc/kafka/server.properties
 
 $ confluent local services start
 ```
@@ -53,5 +59,11 @@ kafka-console-producer --topic sql-server --broker-list localhost:9092
 
 ## kafka connector
 ```
+https://www.youtube.com/watch?v=QsaRN11Cg04
+
+https://www.youtube.com/watch?v=3asGzt1f_xs
+
 https://www.confluent.io/product/connectors/
+
+
 ```
