@@ -67,3 +67,8 @@ https://www.confluent.io/product/connectors/
 
 
 ```
+
+## kafka python library
+```
+https://github.com/confluentinc/confluent-kafka-python
+```

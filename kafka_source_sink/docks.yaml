@@ -1,0 +1,65 @@
+connector:
+  $ https://docs.confluent.io/cloud/current/connectors/cc-mysql-source-cdc-debezium.html
+
+download_source:
+  $ https://docs.confluent.io/debezium-connect-mysql-source/current/overview.html
+  $ https://docs.confluent.io/debezium-connect-postgres-source/current/overview.html
+  $ https://docs.confluent.io/cloud/current/connectors/cc-mongo-db-sink.html
+  $ https://docs.confluent.io/debezium-connect-mongodb-source/current/overview.html
+download_sink:
+
+
+mysql data:
+  $ https://github.com/rmoff/debezium-ccloud
+
+medium_docks:
+  $ https://towardsdatascience.com/stream-your-data-changes-in-mysql-into-elasticsearch-using-debizium-kafka-and-confluent-jdbc-b93821d4997b
+
+  $ https://rmoff.net/2020/06/19/how-to-install-connector-plugins-in-kafka-connect/
+
+github_links:
+  confluent: https://github.com/confluentinc/demo-scene/
+
+video_link_for_docker_connector:
+   https://www.youtube.com/watch?v=qHxm7Eu3C5Y
+
+# make sure you have installed mysql dbzium connector
+
+# ---------------mysql installaion-------------------
+docker run -it --rm --name mysql \
+-p 4000:3306 \
+-e MYSQL_ROOT_PASSWORD=debezium \
+-e MYSQL_USER=mysqluser \
+-e MYSQL_PASSWORD=mysqlpw debezium/example-mysql:0.9
+
+username=mysqluser
+pass=mysqlpw
+
+# ---------------------------------
+open database container
+
+docker exec -it c-id bash
+> mysql -u mysqluser -p
+>mysqlpwd (pass)
+
+
+# Create the file register-mysql.json to store the following connector configuration:
+
+{
+ "name": "inventory-connector",
+ "config": {
+     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+     "tasks.max": "1",
+     "database.hostname": "localhost",
+     "database.port": "4000",
+     "database.user": "debezium",
+     "database.password": "dbz",
+     "database.server.id": "184054",
+     "database.server.name": "dbserver1",
+     "database.whitelist": "inventory",
+     "database.history.kafka.bootstrap.servers": "localhost:9092",
+     "database.history.kafka.topic": "schema-changes.inventory"
+     }
+ }
+
+# upload this file into kafka connector

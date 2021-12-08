@@ -37,3 +37,7 @@ https://wikitech.wikimedia.org/wiki/Event_Platform/EventStreams#Stream_selection
 
 https://github.com/cordon-thiago/spark-kafka-consumer
 ```
+## install elk
+```
+https://github.com/panditrahulsharma/docker-elk
+```
