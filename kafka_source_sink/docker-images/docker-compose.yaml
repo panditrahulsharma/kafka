@@ -89,18 +89,6 @@ services:
       CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
       CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
       CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
-    command: 
-      - bash 
-      - -c 
-      - |
-        # Install connector plugins
-        # This will by default install into /usr/share/confluent-hub-components/ so make
-        #  sure that this path is added to the plugin.path in the environment variables 
-        confluent-hub install --no-prompt debezium/debezium-connector-mysql:0.10.0
-        # Launch the Kafka Connect worker
-        /etc/confluent/docker/run &
-        # Don't exit
-        sleep infinity
     networks:
       - project_network
 
@@ -207,22 +195,40 @@ services:
     networks:
       - project_network
   mysql:
-    # *-----------------------------*
-    # To connect to the DB: 
-    #   docker exec -it mysql bash -c 'mysql -u $MYSQL_USER -p$MYSQL_PASSWORD demo'
-    # *-----------------------------*
     image: debezium/example-mysql:0.9
     container_name: mysql
-    ports:
-      - 3306:3306
+    restart: always
     environment:
-     - MYSQL_ROOT_PASSWORD=Admin123
-     - MYSQL_USER=connect_user
-     - MYSQL_PASSWORD=asgard
+      MYSQL_USER: 'mysqluser'
+      MYSQL_PASSWORD: 'mysqlpw'
+      MYSQL_ROOT_PASSWORD: 'debezium'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
     volumes:
-     - ./data/mysql:/docker-entrypoint-initdb.d/
+      - my-db:/var/lib/mysql
     networks:
       - project_network
-      
+
+  postgres:
+    image: debezium/example-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    networks:
+      - project_network
+
 networks:
   project_network:
+
+volumes:
+  my-db:
+  pg_data:

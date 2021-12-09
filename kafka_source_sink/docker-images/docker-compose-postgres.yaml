@@ -1,0 +1,22 @@
+# enter docker container
+# su postgres
+# psql
+# \dn
+# set schema 'inventory';
+# \dt
+version: '3.7'
+services:
+  postgres:
+    image: debezium/example-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+volumes:
+  pg_data:

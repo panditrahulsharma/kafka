@@ -1,0 +1,56 @@
+# https://docs.confluent.io/debezium-connect-mongodb-source/current/overview.html
+
+# Configure the MongoDB data directory
+mkdir -p path/to/project/data/db
+
+# Pull the Docker image
+docker pull mongo
+
+# Run the container, where `mongodb` is the name assigned to the conatiner
+docker run --name mongodb -v $(pwd)/data/db:/data/db -p 27017:27017 -d mongo  --replSet debezium
+
+# Start a new bash process in running container
+docker exec -it mongodb bash
+
+# Start the mongo process
+mongo
+
+# Initialize MongoDB replica set
+
+docker exec -it mongodb mongo --eval 'rs.initiate({_id: "debezium", members:[{_id: 0, host: "localhost:27017"}]})'
+
+# Create a user profile
+use admin
+db.createUser(
+{
+user: "debezium",
+pwd: "dbz",
+roles: ["dbOwner"]
+}
+)
+
+# Insert a record
+use inventory
+db.customers.insert([
+{ _id : 1005, first_name : 'Bob', last_name : 'Hopper', email : 'thebob@example.com' }
+]);
+
+# View records
+db.customers.find().pretty();
+
+
+# ------------------------------------
+# Start the Debezium MongoDB connector
+# Create the file register-mongodb.json to store the following connector configuration:
+
+{
+ "name": "inventory-connector",
+ "config": {
+     "connector.class" : "io.debezium.connector.mongodb.MongoDbConnector",
+     "tasks.max" : "1",
+     "mongodb.hosts" : "debezium/localhost:27017",
+     "mongodb.name" : "dbserver1",
+     "mongodb.user" : "debezium",
+     "mongodb.password" : "dbz",
+     }
+ }
