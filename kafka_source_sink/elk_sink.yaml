@@ -11,3 +11,7 @@ first install connector
 modify json file and put your topic name
 
 create index in elk and go to discover index and see your data
+
+# --------------------------elk cloud------------------
+pass=zEBpY6NeYNGNLQo5Q5Lp3WED
+uname=elastic

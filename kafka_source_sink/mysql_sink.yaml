@@ -15,7 +15,7 @@ open database container
 
 docker exec -it c-id bash
 > mysql -u mysqluser -p
->mysqlpwd (pass)
+>mysqlpw (pass)
 
 
 # Create the file register-mysql.json to store the following connector configuration:

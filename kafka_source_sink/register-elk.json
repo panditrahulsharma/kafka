@@ -4,7 +4,7 @@
   "config": {
     "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
     "tasks.max": "1",
-    "topics": "dbserver2.inventory.meta",
+    "topics": "dbserver2.inventory.USERS",
     "key.ignore": "true",
     "connection.url": "http://localhost:9200",
     "connection.username": "elastic",
@@ -15,3 +15,4 @@
   "tasks": [],
   "type": null
 }
+
