@@ -10,17 +10,6 @@ producer = KafkaProducer(bootstrap_servers=['3.14.27.172:9092'],
 
 df=pd.read_csv("dataset/data.csv")
 
-"""
-#let's iterate over swapi people documents and index them
-# https://tryolabs.com/blog/2015/02/17/python-elasticsearch-first-steps
-import json
-i = 1
-while 1<10:
-    r = requests.get('https://swapi.dev/api/people/'+ str(i))
-    i=i+1
-    print(r.content)
-
-"""
 
 for index,row in df.iterrows():
     print(type(row))
