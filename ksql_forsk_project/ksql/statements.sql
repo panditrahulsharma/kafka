@@ -126,10 +126,35 @@ FROM BIGINT_to_timestamp
 EMIT CHANGES;
 
 -- -----3rd step--------start time---------------------
+-- ---------------------am to pm
 DROP STREAM starttime;
 SET 'auto.offset.reset' = 'earliest';
 CREATE STREAM starttime AS 
 SELECT 
+  CASE 
+    WHEN CAST(SUBSTRING(CALL_START_TIME,0,2) as int)>=12 THEN
+      CASE  
+        WHEN  CAST(SUBSTRING(CALL_START_TIME,0,2) as int)=12 THEN  CONCAT_WS(':', SUBSTRING(CALL_START_TIME,0,2),SUBSTRING(CALL_START_TIME,3,2),SUBSTRING(CALL_START_TIME,5,2)) 
+      ELSE
+        CONCAT_WS(':', CAST(CAST(SUBSTRING(CALL_START_TIME,0,2) as int)-12 AS VARCHAR),SUBSTRING(CALL_START_TIME,3,2),SUBSTRING(CALL_START_TIME,5,2))
+      END
+    ELSE
+      CASE
+        WHEN CAST(SUBSTRING(CALL_START_TIME,0,2) as int) =0 then CONCAT_WS(':','12',SUBSTRING(CALL_START_TIME,3,2),SUBSTRING(CALL_START_TIME,5,2))
+      ELSE
+        CONCAT_WS(':', SUBSTRING(CALL_START_TIME,0,2),SUBSTRING(CALL_START_TIME,3,2),SUBSTRING(CALL_START_TIME,5,2))
+      END  
+  END as am_pm_time,
+  CONCAT_WS(':',SUBSTRING(CALL_START_TIME,3,2),SUBSTRING(CALL_START_TIME,5,2)) as min_sec,
   CONCAT_WS(':', SUBSTRING(CALL_START_TIME,0,2),SUBSTRING(CALL_START_TIME,3,2),SUBSTRING(CALL_START_TIME,5,2)) as start_call_time
+FROM BIGINT_to_timestamp
+EMIT CHANGES;
+
+-- 4th step am_pm_time
+DROP STREAM startdate;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM startdate AS 
+SELECT 
+  CONCAT_WS('-', SUBSTRING(call_start_date,0,4),SUBSTRING(call_start_date,5,2),SUBSTRING(call_start_date,7,2)) as start_call_date
 FROM BIGINT_to_timestamp
 EMIT CHANGES;
