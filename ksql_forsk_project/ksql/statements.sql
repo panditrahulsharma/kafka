@@ -80,3 +80,56 @@ SELECT
 EMIT CHANGES;
 
 -- -----------------
+
+-- ----------------------------first convert double to bigint-------------------------------------
+https://docs.ksqldb.io/en/latest/how-to-guides/use-a-custom-timestamp-column/
+-- ----------------------------then bigint to timestamp-----------------------------------------------------------------
+
+-- first step double to bigint
+-- change double to varchar
+DROP STREAM double_to_BIGINT_timestamp;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM double_to_BIGINT_timestamp
+  WITH(KAFKA_TOPIC='double_to_BIGINT_timestamp') AS
+  SELECT 
+    CAST(AFTER->J AS BIGINT) as start_time
+  FROM raw_telecom
+  EMIT CHANGES;
+
+-- 2nd step would be bigint to timestamp
+https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/scalar-functions/#exp
+-- DROP STREAM BIGINT_to_timestamp;
+-- SET 'auto.offset.reset' = 'earliest';
+-- CREATE STREAM BIGINT_to_timestamp AS 
+-- SELECT 
+--        CAST(start_time AS VARCHAR) as CAST_date,
+--        SUBSTRING(CAST(start_time AS VARCHAR),0,8) as date1,
+--        SUBSTRING(CAST(start_time AS VARCHAR),9,15) as date2
+-- FROM double_to_BIGINT_timestamp
+-- EMIT CHANGES;
+DROP STREAM BIGINT_to_timestamp;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM BIGINT_to_timestamp AS 
+SELECT 
+       CAST(start_time AS VARCHAR) as CAST_date,
+       SUBSTRING(CAST(start_time AS VARCHAR),0,8) as call_start_date,
+       SUBSTRING(CAST(start_time AS VARCHAR),9,LEN(CAST(start_time AS VARCHAR))) as call_start_time
+FROM double_to_BIGINT_timestamp
+EMIT CHANGES;
+-- -----3rd step--------start date---------------------
+DROP STREAM startdate;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM startdate AS 
+SELECT 
+  CONCAT_WS('-', SUBSTRING(call_start_date,0,4),SUBSTRING(call_start_date,5,2),SUBSTRING(call_start_date,7,2)) as start_call_date
+FROM BIGINT_to_timestamp
+EMIT CHANGES;
+
+-- -----3rd step--------start time---------------------
+DROP STREAM starttime;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM starttime AS 
+SELECT 
+  CONCAT_WS(':', SUBSTRING(CALL_START_TIME,0,2),SUBSTRING(CALL_START_TIME,3,2),SUBSTRING(CALL_START_TIME,5,2)) as start_call_time
+FROM BIGINT_to_timestamp
+EMIT CHANGES;
