@@ -39,7 +39,7 @@ CREATE STREAM  raw_telecom WITH \
 -- 
 -- create a stream replace_simple_with_standard_terminology
 
-CREATE STREAM replace_simple_with_standard_terminology AS SELECT  AFTER -> A,AFTER -> JH ,AFTER -> LA   FROM RAW_TELECOM;
+-- CREATE STREAM replace_simple_with_standard_terminology AS SELECT  AFTER -> A,AFTER -> JH ,AFTER -> LA   FROM RAW_TELECOM;
 
 
 -- filter of F table
@@ -78,3 +78,5 @@ SELECT
  END AS ER,LA,JH,INDEX
  FROM REPLACE_SIMPLE_WITH_STANDARD_TERMINOLOGY
 EMIT CHANGES;
+
+-- -----------------

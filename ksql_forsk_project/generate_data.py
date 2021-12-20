@@ -17,7 +17,7 @@ if __name__ == '__main__':
         df=raw_cdr_data.sample(n=1)
         print(f"Inserting data {df.index}")
         df.to_sql('raw_telecom',conn, if_exists='append')
-        sleep(5)
+        sleep(10)
 
 
 
