@@ -100,9 +100,9 @@ EMIT CHANGES;
 
 
 -- -----3rd step--------start date with week day name---------------------
-DROP STREAM if exists startdate;
+DROP STREAM if exists date_time_column;
 SET 'auto.offset.reset' = 'earliest';
-CREATE STREAM startdate AS 
+CREATE STREAM date_time_column AS 
 SELECT 
   CASE 
     WHEN CAST(SUBSTRING(CALL_START_TIME,0,2) as int)>=12 THEN
