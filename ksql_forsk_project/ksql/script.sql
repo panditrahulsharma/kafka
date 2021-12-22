@@ -1,26 +1,3 @@
--- Write your statements to a file
-
--- Now that you have a series of statements that’s doing the right thing, the last step is to put them into a file so that they can be used outside the CLI session. Create a file at src/statements.sql with the following content:
-https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/show-streams/
-
--- for datetime
-https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/scalar-functions/
--- ------------------------------
--- In ksqlDB you can query from the beginning 
-SET 'auto.offset.reset' = 'earliest';
---  or end of a topic 
-SET 'auto.offset.reset' = 'latest';
-
--- ---------------------------main sql for project-----------------------------------
--- ===================================================================
--- -----------------drop or create stream-------------------------
-"""
-tasks
-1.replace column data(f,jh,la) concept if then else
-
-
-raw_telecom >> replace_simple_with_standard_terminology >> combine_all_services
-"""
 
 DROP STREAM if exists raw_telecom ;
 SET 'auto.offset.reset' = 'earliest';
@@ -65,11 +42,6 @@ SELECT
  FROM REPLACE_SIMPLE_WITH_STANDARD_TERMINOLOGY
 EMIT CHANGES;
 
--- -----------------
-
--- ----------------------------first convert double to bigint-------------------------------------
-https://docs.ksqldb.io/en/latest/how-to-guides/use-a-custom-timestamp-column/
--- ----------------------------then bigint to timestamp-----------------------------------------------------------------
 
 -- first step double to bigint
 -- change double to varchar
@@ -84,7 +56,6 @@ CREATE STREAM double_to_BIGINT_timestamp
   EMIT CHANGES;
 
 -- 2nd step would be bigint to timestamp
-https://docs.ksqldb.io/en/latest/developer-guide/ksqldb-reference/scalar-functions/#exp
 
 DROP STREAM if exists BIGINT_to_timestamp;
 SET 'auto.offset.reset' = 'earliest';
@@ -135,10 +106,3 @@ SELECT
 
 FROM BIGINT_to_timestamp
 EMIT CHANGES;
-
-
--- get time diff using ksql
-SELECT CONCAT_WS('T',END_CALL_DATE,END_CALL_TIME) as start_time,
-CONCAT_WS('T',START_CALL_DATE,START_CALL_TIME) as end_time,
-(UNIX_TIMESTAMP(CAST(CONCAT_WS('T',END_CALL_DATE,END_CALL_TIME) AS TIMESTAMP))-UNIX_TIMESTAMP(CAST(CONCAT_WS('T',START_CALL_DATE,START_CALL_TIME) AS TIMESTAMP)))/1000 AS duration
-FROM DATE_TIME_COLUMN EMIT CHANGES;

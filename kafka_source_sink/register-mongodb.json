@@ -1,0 +1,11 @@
+{
+    "name": "MongoDbConnectorConnector_1",
+    "config": {
+      "name": "MongoDbConnectorConnector_1",
+      "connector.class": "io.debezium.connector.mongodb.MongoDbConnector",
+      "mongodb.hosts": "debezium/localhost:27017",
+      "mongodb.user": "debezium",
+      "mongodb.password": "dbz",
+      "mongodb.name": "dbserver1"
+    }
+}
