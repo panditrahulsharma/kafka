@@ -1,5 +1,5 @@
 # https://docs.confluent.io/kafka-connect-elasticsearch/current/overview.html
-
+# https://www.confluent.io/hub/confluentinc/kafka-connect-elasticsearch
 
 # topic name is equal to elk index name 
 dbserver2.inventory.meta

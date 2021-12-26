@@ -14,7 +14,7 @@ SELECT
    WHEN AFTER -> F ='Originating' THEN 'Outgoing'
    WHEN AFTER -> F ='Terminating' THEN 'Incoming'
    ELSE AFTER -> F
- END AS F,AFTER -> INDEX,
+ END AS F,
  CASE
    WHEN AFTER -> JH ='Success' THEN 'Voice Portal'
    ELSE AFTER -> JH
@@ -22,7 +22,7 @@ SELECT
  CASE
    WHEN AFTER -> LA ='Shared Call Appearance' THEN 'Secondary Device'
    ELSE AFTER -> LA
- END AS LA,AFTER->ER
+ END AS LA,AFTER->ER,AFTER -> INDEX
 FROM RAW_TELECOM
 EMIT CHANGES;
 
@@ -40,7 +40,7 @@ SELECT
       JH
     END
   ELSE  ER
- END AS ER,LA,JH,INDEX
+ END AS ER,LA,JH,F,INDEX
  FROM REPLACE_SIMPLE_WITH_STANDARD_TERMINOLOGY
 EMIT CHANGES;
 
@@ -53,7 +53,7 @@ CREATE STREAM double_to_BIGINT_timestamp
   WITH(KAFKA_TOPIC='double_to_BIGINT_timestamp') AS
   SELECT 
     CAST(AFTER->J AS BIGINT) as start_time,
-    CAST(AFTER->N AS BIGINT) as end_time
+    CAST(AFTER->N AS BIGINT) as end_time,AFTER -> INDEX
   FROM raw_telecom
   EMIT CHANGES;
 
@@ -67,7 +67,8 @@ SELECT
        SUBSTRING(CAST(start_time AS VARCHAR),0,8) as call_start_date,
        SUBSTRING(CAST(start_time AS VARCHAR),9,LEN(CAST(start_time AS VARCHAR))) as call_start_time,
        SUBSTRING(CAST(end_time AS VARCHAR),0,8) as call_end_date,
-       SUBSTRING(CAST(end_time AS VARCHAR),9,LEN(CAST(end_time AS VARCHAR))) as call_end_time
+       SUBSTRING(CAST(end_time AS VARCHAR),9,LEN(CAST(end_time AS VARCHAR))) as call_end_time,
+       INDEX
 FROM double_to_BIGINT_timestamp
 EMIT CHANGES;
 
@@ -113,7 +114,49 @@ SELECT
   CAST(CONCAT_WS('T',
         CONCAT_WS('-', SUBSTRING(call_end_date,0,4),SUBSTRING(call_end_date,5,2),SUBSTRING(call_end_date,7,2)),
         CONCAT_WS(':', SUBSTRING(call_end_time,0,2),SUBSTRING(call_end_time,3,2),SUBSTRING(call_end_time,5,2))) 
-        AS TIMESTAMP) as end_timestamp
+        AS TIMESTAMP) as end_timestamp,
+  INDEX
 
 FROM BIGINT_to_timestamp
 EMIT CHANGES;
+
+----------------------------------------------------------join streams-------------
+-- https://docs.ksqldb.io/en/latest/concepts/time-and-windows-in-ksqldb-queries/#windowed-joins
+-- https://kafka-tutorials.confluent.io/join-a-stream-to-a-stream/ksql.html
+-- dataset table with joins
+DROP STREAM if exists call_datasets;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM call_datasets AS
+SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,a.AFTER->E as Groups,a.AFTER->O as Misses_Call,
+a.AFTER->AF as Group_ID,a.AFTER->DQ as USER_ID,a.AFTER->MH as UserDeviceType,b.F as Call_Direction,
+b.ER as Features,b.JH as vpDialingfacResult,b.LA as UsageDeviceType,DATE_TIME_COLUMN.* from raw_telecom as a
+INNER JOIN combine_all_services as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
+INNER JOIN DATE_TIME_COLUMN  WITHIN 3 second on a.AFTER->INDEX=DATE_TIME_COLUMN.INDEX
+EMIT CHANGES;
+
+
+DROP STREAM if exists service_datasets;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM service_datasets AS
+SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,a.AFTER->DQ as USER_ID,a.AFTER->AF as Group_ID,
+b.ER as FeatureName,a.AFTER->MH as UserDeviceType ,DATE_TIME_COLUMN.* from raw_telecom as a 
+INNER JOIN combine_all_services as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
+INNER JOIN DATE_TIME_COLUMN  WITHIN 3 second on a.AFTER->INDEX=DATE_TIME_COLUMN.INDEX
+EMIT CHANGES;
+
+DROP STREAM if exists device_dataset;
+SET 'auto.offset.reset' = 'earliest';
+CREATE STREAM device_dataset AS
+SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,b.F as Call_Direction,a.AFTER->DQ as USER_ID,
+a.AFTER->AF as Group_ID,a.AFTER->MH as UserDeviceType,b.LA as UsageDeviceType,
+DATE_TIME_COLUMN.* from raw_telecom as a
+INNER JOIN combine_all_services as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
+INNER JOIN DATE_TIME_COLUMN  WITHIN 3 second on a.AFTER->INDEX=DATE_TIME_COLUMN.INDEX
+EMIT CHANGES;
+
+"""
+SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb, d.INDEX from raw_telecom as a
+INNER JOIN REPLACE_SIMPLE_WITH_STANDARD_TERMINOLOGY as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
+INNER JOIN DATE_TIME_COLUMN as d WITHIN 3 second on a.AFTER->INDEX=d.INDEX
+EMIT CHANGES;
+"""

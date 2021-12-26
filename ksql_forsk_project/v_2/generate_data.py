@@ -1,5 +1,5 @@
-from faker import Faker
-import psycopg2
+# from faker import Faker
+# import psycopg2
 from time import sleep
 from datetime import datetime
 import pandas as pd

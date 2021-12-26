@@ -272,12 +272,13 @@ def get_clean_df(raw_cdr_data):
 
 def split_df(raw_cdr_data):
     # split into three dataset
-    call_columns = ["4", "5","14", "31", "120", "147", "267", "312", "345",                     "date","starttime", "endtime","duration", "hourly_range","weekly_range"]
+    call_columns = ["4", "5","14", "31", "120", "147", "267", "312", "345", \
+                    "date","starttime", "endtime","duration", "hourly_range","weekly_range"]
 
     # low_memory = False is used because the columns have mixed data types
     call_dataset = get_clean_df(raw_cdr_data)
+    # call_dataset=call_dataset[call_columns]
     call_dataset.columns = call_dataset.columns.astype(str)
-
 
     # Required columns for service data
     service_columns = ["31", "120", "147", "345","date", "starttime", "endtime","duration"]
@@ -288,11 +289,12 @@ def split_df(raw_cdr_data):
     device_columns = ["5", "31", "120", "312", "345", "date","starttime", "endtime","duration"]
     device_dataset = call_dataset[device_columns]
 
-    call_dataset = call_dataset.rename(columns = {"4":"Group", "5":"Call_Direction","14":"Missed Calls",
-                                            "31":"GroupID", "120":"UserID", "147":"Features", "267":" vpDialingfacResult",
+    call_dataset = call_dataset.rename(columns = {"4":"Group", "5":"Call_Direction","14":"Missed_Calls",
+                                            "31":"GroupID", "120":"UserID", "147":"Features", "267":"vpDialingfacResult",
                                             "312":"UsageDeviceType",
                                             "345":"UserDeviceType"})
 
+    call_dataset=call_dataset[['Group','Call_Direction','Missed_Calls','GroupID','Features','vpDialingfacResult','UsageDeviceType','UserDeviceType',"date","starttime", "endtime","duration", "hourly_range","weekly_range"]]
     service_dataset = service_dataset.rename(columns ={"120":"UserID", 
                                                   "31":"GroupID", "147":"FeatureName",
                                                   "345":"UserDeviceType","date":"FeatureEventDate"
@@ -304,4 +306,3 @@ def split_df(raw_cdr_data):
                                       "312":"UsageDeviceType"})
     
     return (call_dataset,service_dataset,device_dataset)
-
