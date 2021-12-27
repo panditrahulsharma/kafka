@@ -28,7 +28,7 @@ def get_fake_add():
     print(data)
     # df=pd.DataFrame(data)
     df=pd.DataFrame(data,index = [1])
-    df.to_sql('faker-profile',conn, if_exists='append')
+    df.to_sql('raw_address',conn, if_exists='append')
     # telecom_data=json.dumps(data)
     # telecom_data=str.encode(telecom_data)
     # return telecom_data
@@ -50,7 +50,7 @@ def random_cdr_data():
 
 while True:
     get_fake_add()
-    sleep(5)
+    sleep(15)
 
 # for i in range(0,10000):
 #     # Trigger any available delivery report callbacks from previous produce() calls
