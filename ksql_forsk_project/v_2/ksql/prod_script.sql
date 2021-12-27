@@ -126,7 +126,7 @@ EMIT CHANGES;
 -- dataset table with joins
 DROP STREAM if exists call_datasets;
 SET 'auto.offset.reset' = 'earliest';
-CREATE STREAM call_datasets AS
+CREATE STREAM call_datasets WITH (KAFKA_TOPIC='call_datasets_topic') AS
 SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,a.AFTER->E as Groups,a.AFTER->O as Misses_Call,
 a.AFTER->AF as Group_ID,a.AFTER->DQ as USER_ID,a.AFTER->MH as UserDeviceType,b.F as Call_Direction,
 b.ER as Features,b.JH as vpDialingfacResult,b.LA as UsageDeviceType,DATE_TIME_COLUMN.* from raw_telecom as a
@@ -137,7 +137,7 @@ EMIT CHANGES;
 
 DROP STREAM if exists service_datasets;
 SET 'auto.offset.reset' = 'earliest';
-CREATE STREAM service_datasets AS
+CREATE STREAM service_datasets WITH (KAFKA_TOPIC='service_datasets_topic') AS
 SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,a.AFTER->DQ as USER_ID,a.AFTER->AF as Group_ID,
 b.ER as FeatureName,a.AFTER->MH as UserDeviceType ,DATE_TIME_COLUMN.* from raw_telecom as a 
 INNER JOIN combine_all_services as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
@@ -146,7 +146,7 @@ EMIT CHANGES;
 
 DROP STREAM if exists device_dataset;
 SET 'auto.offset.reset' = 'earliest';
-CREATE STREAM device_dataset AS
+CREATE STREAM device_dataset WITH (KAFKA_TOPIC='device_datasets_topic') AS
 SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,b.F as Call_Direction,a.AFTER->DQ as USER_ID,
 a.AFTER->AF as Group_ID,a.AFTER->MH as UserDeviceType,b.LA as UsageDeviceType,
 DATE_TIME_COLUMN.* from raw_telecom as a

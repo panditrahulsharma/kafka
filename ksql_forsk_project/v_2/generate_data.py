@@ -27,8 +27,8 @@ if __name__ == '__main__':
         call_dataset,service_dataset,device_dataset=split_df(raw_cdr_data)
 
         df.to_sql('raw_telecom',conn, if_exists='append')
-        call_dataset.to_sql('call_dataset_mysql',engine, if_exists='append')
-        service_dataset.to_sql('service_dataset_mysql',engine, if_exists='append')
-        device_dataset.to_sql('device_dataset_mysql',engine, if_exists='append')
-        sleep(10)
+        # call_dataset.to_sql('call_dataset_mysql',engine, if_exists='append')
+        # service_dataset.to_sql('service_dataset_mysql',engine, if_exists='append')
+        # device_dataset.to_sql('device_dataset_mysql',engine, if_exists='append')
+        sleep(15)
 

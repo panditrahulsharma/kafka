@@ -1,0 +1,17 @@
+{
+  "name": "test_device_topic-sink",
+  "config": {
+  "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter.schemas.enable": false,
+  "topics": "test_device_topic",
+  "key.ignore": "true",
+  "schema.ignore": "true",
+  "type.name": "",
+  "connection.url": "http://localhost:9200",
+  "connection.username": "elastic",
+  "connection.password": "changeme"
+}
+}
+

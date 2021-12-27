@@ -10,6 +10,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 import numpy as np
 p = Producer({'bootstrap.servers': 'localhost:9092,localhost:9093'})
+conn = create_engine('mysql://mysqluser:mysqlpw@0.0.0.0:3000/inventory') # connect to server
 
 def delivery_report(err, msg):
     """ Called once for each message produced to indicate delivery result.
@@ -24,9 +25,13 @@ def get_fake_add():
     fields = ['job','company','residence','username','name','sex','address','mail','ssn']
 
     data = faker.profile(fields)
-    telecom_data=json.dumps(data)
-    telecom_data=str.encode(telecom_data)
-    return telecom_data
+    print(data)
+    # df=pd.DataFrame(data)
+    df=pd.DataFrame(data,index = [1])
+    df.to_sql('faker-profile',conn, if_exists='append')
+    # telecom_data=json.dumps(data)
+    # telecom_data=str.encode(telecom_data)
+    # return telecom_data
 dataset_name = "data/raw_cdr_data_header.csv"
 
 def random_cdr_data():
@@ -43,17 +48,19 @@ def random_cdr_data():
     telecom_data=str.encode(telecom_data)
     return telecom_data
 
-
-
-for i in range(0,10000):
-    # Trigger any available delivery report callbacks from previous produce() calls
-    p.poll(0)
-
-    # Asynchronously produce a message, the delivery report callback
-    # will be triggered from poll() above, or flush() below, when the message has
-    # been successfully delivered or failed permanently.
-    p.produce('raw-telecom', random_cdr_data(), callback=delivery_report)
+while True:
+    get_fake_add()
     sleep(5)
-# Wait for any outstanding messages to be delivered and delivery report
-# callbacks to be triggered.
-p.flush()
+
+# for i in range(0,10000):
+#     # Trigger any available delivery report callbacks from previous produce() calls
+#     p.poll(0)
+
+#     # Asynchronously produce a message, the delivery report callback
+#     # will be triggered from poll() above, or flush() below, when the message has
+#     # been successfully delivered or failed permanently.
+#     p.produce('raw-telecom2', get_fake_add(), callback=delivery_report)
+#     sleep(10)
+# # Wait for any outstanding messages to be delivered and delivery report
+# # callbacks to be triggered.
+# p.flush()
