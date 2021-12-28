@@ -5,7 +5,7 @@
   "key.converter": "org.apache.kafka.connect.storage.StringConverter",
   "value.converter": "org.apache.kafka.connect.json.JsonConverter",
   "value.converter.schemas.enable": "false",
-  "topics": "CALL_DATASETS,DEVICE_DATASET,SERVICE_DATASETS",
+  "topics": "CALL_DATASETS,DEVICE_DATASETS,SERVICE_DATASETS",
   "key.ignore": "true",
   "schema.ignore": "true",
   "type.name": "_doc",

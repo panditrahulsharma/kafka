@@ -120,13 +120,9 @@ SELECT
 FROM BIGINT_to_timestamp
 EMIT CHANGES;
 
-----------------------------------------------------------join streams-------------
--- https://docs.ksqldb.io/en/latest/concepts/time-and-windows-in-ksqldb-queries/#windowed-joins
--- https://kafka-tutorials.confluent.io/join-a-stream-to-a-stream/ksql.html
--- dataset table with joins
 DROP STREAM if exists call_datasets;
 SET 'auto.offset.reset' = 'earliest';
-CREATE STREAM call_datasets WITH (KAFKA_TOPIC='call_datasets_topic') AS
+CREATE STREAM call_datasets WITH (VALUE_FORMAT = 'JSON') AS
 SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,a.AFTER->E as Groups,a.AFTER->O as Misses_Call,
 a.AFTER->AF as Group_ID,a.AFTER->DQ as USER_ID,a.AFTER->MH as UserDeviceType,b.F as Call_Direction,
 b.ER as Features,b.JH as vpDialingfacResult,b.LA as UsageDeviceType,DATE_TIME_COLUMN.* from raw_telecom as a
@@ -137,7 +133,7 @@ EMIT CHANGES;
 
 DROP STREAM if exists service_datasets;
 SET 'auto.offset.reset' = 'earliest';
-CREATE STREAM service_datasets WITH (KAFKA_TOPIC='service_datasets_topic') AS
+CREATE STREAM service_datasets WITH (VALUE_FORMAT = 'JSON') AS
 SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,a.AFTER->DQ as USER_ID,a.AFTER->AF as Group_ID,
 b.ER as FeatureName,a.AFTER->MH as UserDeviceType ,DATE_TIME_COLUMN.* from raw_telecom as a 
 INNER JOIN combine_all_services as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
@@ -146,17 +142,10 @@ EMIT CHANGES;
 
 DROP STREAM if exists device_dataset;
 SET 'auto.offset.reset' = 'earliest';
-CREATE STREAM device_dataset WITH (KAFKA_TOPIC='device_datasets_topic') AS
+CREATE STREAM device_dataset WITH (VALUE_FORMAT = 'JSON') AS
 SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb,b.F as Call_Direction,a.AFTER->DQ as USER_ID,
 a.AFTER->AF as Group_ID,a.AFTER->MH as UserDeviceType,b.LA as UsageDeviceType,
 DATE_TIME_COLUMN.* from raw_telecom as a
 INNER JOIN combine_all_services as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
 INNER JOIN DATE_TIME_COLUMN  WITHIN 3 second on a.AFTER->INDEX=DATE_TIME_COLUMN.INDEX
 EMIT CHANGES;
-
-"""
-SELECT a.AFTER->INDEX as INDEXa,b.INDEX as INDEXb, d.INDEX from raw_telecom as a
-INNER JOIN REPLACE_SIMPLE_WITH_STANDARD_TERMINOLOGY as b WITHIN 3 second on a.AFTER->INDEX=b.INDEX
-INNER JOIN DATE_TIME_COLUMN as d WITHIN 3 second on a.AFTER->INDEX=d.INDEX
-EMIT CHANGES;
-"""
