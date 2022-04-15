@@ -20,4 +20,8 @@
     192.168.48.1->yourIp
 
 ## create index in kibana(search kibana index in search bar)
-    dbserver2.inventory.raw_telecom
+    device_datasets,service_datasets,call_datasets
+
+## search object in kibana search and upload 
+    graph/telecom-analysis.ndjson
+

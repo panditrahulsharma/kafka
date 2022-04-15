@@ -41,3 +41,19 @@ https://github.com/cordon-thiago/spark-kafka-consumer
 ```
 https://github.com/panditrahulsharma/docker-elk
 ```
+
+## Single Node-Multiple Brokers Configuration
+Create Multiple Kafka Brokers − We have one Kafka broker instance already in con-fig/server.properties. Now we need multiple broker instances, so copy the existing server.prop-erties file into two new config files and rename it as server-one.properties and server-two.prop-erties. Then edit both new files and assign the following changes −
+
+        confluent loc=/home/rahul/confluent/confluent-7.0.0/etc/kafka/config/server-one.properties
+        config/server-one.properties
+        # The id of the broker. This must be set to a unique integer for each broker.
+        broker.id=1
+        # The port the socket server listens on
+        port=9093
+        # A comma seperated list of directories under which to store log files
+        log.dirs=/tmp/kafka-logs-1
+
+
+## databricks kafka deltalake 
+https://databricks.com/blog/2017/04/04/real-time-end-to-end-integration-with-apache-kafka-in-apache-sparks-structured-streaming.html
