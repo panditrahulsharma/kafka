@@ -1,3 +1,7 @@
+## if confluent not up(getting error schema registry)
+
+https://stackoverflow.com/questions/54441162/unable-to-start-confluent-schema-registry
+
 ## installation guide kafka
 ```
 https://www.youtube.com/watch?v=lijWUsVN-mM
