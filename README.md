@@ -11,6 +11,14 @@ confluent local service up
 
 confluent local services connect log
 
+## confluent logs
+confluent local current
+then got to cd. /tmp/conflunet.o599
+
+cd kafka/logs
+
+cat server.log 
+
 
 
 ## installation guide kafka
