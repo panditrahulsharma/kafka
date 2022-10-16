@@ -3,7 +3,7 @@
 https://stackoverflow.com/questions/54441162/unable-to-start-confluent-schema-registry
 
 ## confluent commanda
-confluent local service destroy
+confluent local destroy
 
 confluent local service stop
 
