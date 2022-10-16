@@ -2,6 +2,14 @@
 
 https://stackoverflow.com/questions/54441162/unable-to-start-confluent-schema-registry
 
+## confluent commanda
+confluent local service destroy
+
+confluent local service stop
+
+confluent local service up
+
+
 ## installation guide kafka
 ```
 https://www.youtube.com/watch?v=lijWUsVN-mM
