@@ -95,6 +95,42 @@ insert into meta(PersonID,LastName,FirstName,Address,City) values(1,"fwef","wewe
 kafka-avro-console-consumer --bootstrap-server 10.36.37.178:9092 --topic dbserver1.inventory.meta --from-beginning 
 
 
+##------------------------------- kafka producer-------------------------------
+
+# !pip install mysql-connector-python-rf
+# !pip install faker
+import mysql.connector
+import pandas as pd
+from time import sleep
+from faker import Faker
+mydb = mysql.connector.connect(
+host = "10.36.37.178",
+user = "mysqluser",
+password = "mysqlpw",
+database = "inventory",
+port=3000
+)
+
+mycursor = mydb.cursor()
+
+## insert record
+i=5
+while i:
+    sleep(1)
+    fake = Faker()
+
+    sql = "INSERT INTO meta (PersonID, LastName,FirstName,Address,City) VALUES (%s, %s,%s,%s, %s)"
+    val = (i,fake.last_name_male(),fake.first_name(),fake.address(),fake.city())
+
+    mycursor.execute(sql, val)
+    mydb.commit()
+    print(mycursor.rowcount, "details inserted")
+    i=i-1
+# disconnecting from server
+mydb.close()
+print("database is closed")
+
+
 
 
 
