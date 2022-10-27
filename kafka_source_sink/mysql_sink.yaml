@@ -84,8 +84,13 @@ CREATE TABLE meta (
     LastName varchar(255),
     FirstName varchar(255),
     Address varchar(255),
-    City varchar(255)
+    City varchar(255),
+    PRIMARY KEY (PersonID)
 );
+
+ALTER TABLE meta AUTO_INCREMENT=100;
+
+
 
 insert into meta(PersonID,LastName,FirstName,Address,City) values(1,"fwef","wewe","ewfjwekf","wefkjwe");
 
