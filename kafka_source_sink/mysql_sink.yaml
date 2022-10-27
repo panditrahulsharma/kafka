@@ -80,15 +80,13 @@ docker exec -it c-id bash
 # upload this file into kafka connector
 # you can create new table in this database
 CREATE TABLE meta (
-    PersonID int,
+    PersonID  INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     LastName varchar(255),
     FirstName varchar(255),
     Address varchar(255),
-    City varchar(255),
-    PRIMARY KEY (PersonID)
-);
+    City varchar(255)
+    );
 
-ALTER TABLE meta AUTO_INCREMENT=100;
 
 
 
