@@ -1,14 +1,32 @@
 {
-    "name": "inventory-connector-postgres",
+    "name": "inventory-connector1",
     "config": {
         "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
         "tasks.max": "1",
-        "database.hostname": "localhost",
+        "database.hostname": "10.16.37.17",
         "database.port": "5432",
         "database.user": "postgres",
         "database.password": "postgres",
         "database.dbname" : "postgres",
-        "database.server.name": "dbserver1",
-        "schema.whitelist": "inventory"
+        "database.server.name": "sf",
+        "schema.include.list": "inventory",
+        "topic.prefix" : "sf_",
+        "database.history.kafka.bootstrap.servers": "10.16.37.17:9092",
+        "database.history.kafka.topic": "schema-changes.inventory",
+        
+        "value.converter.schema.registry.url":"http://10.16.37.17:8081",
+        "value.converter.schemas.enable": "false",
+        "value.converter": "io.confluent.connect.avro.AvroConverter",
+
+        "key.converter.schema.registry.url":"http://10.16.37.17:8081",
+        "key.converter": "io.confluent.connect.avro.AvroConverter",
+        "key.converter.schemas.enable": "false",
+        
+        "transforms": "unwrap",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.unwrap.drop.tombstones": "false",        
+        "transforms.unwrap.delete.handling.mode": "rewrite",
+        "transforms.unwrap.add.fields": "op,source.ts_ms"
+            }
     }
-}
+
