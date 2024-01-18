@@ -28,6 +28,9 @@ cat server.log
 
 ## installation guide kafka
 ```
+#install confluent kafka
+https://www.youtube.com/watch?v=mdcIdzYHFlw
+
 https://www.youtube.com/watch?v=lijWUsVN-mM
 
 https://towardsdatascience.com/connecting-the-dots-python-spark-and-kafka-19e6beba6404
